@@ -1,9 +1,45 @@
-<mxfile host="app.diagrams.net" modified="2023-10-17T15:16:10.068Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.888 YaBrowser/23.9.2.888 Yowser/2.5 Safari/537.36" etag="qFWubIfJqSMkMdpbeYLm" version="22.0.0" type="github">
+<mxfile host="app.diagrams.net" modified="2023-10-17T15:32:49.984Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.888 YaBrowser/23.9.2.888 Yowser/2.5 Safari/537.36" etag="7sL2VdulCnRKIcjadCDO" version="22.0.0" type="github">
   <diagram name="Страница — 1" id="5EF6wDj4LpZEdtrmL6_O">
-    <mxGraphModel dx="1434" dy="727" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="989" dy="523" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="PGEo8YFtmIF6C_YhRzN8-46" value="user" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="380" width="160" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="PGEo8YFtmIF6C_YhRzN8-47" value="- id&amp;nbsp; (PRIMARY KEY)&lt;br&gt;- first_name&lt;br&gt;- last_name&lt;br&gt;- email&lt;br&gt;- password" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;" vertex="1" parent="PGEo8YFtmIF6C_YhRzN8-46">
+          <mxGeometry y="40" width="160" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="PGEo8YFtmIF6C_YhRzN8-48" value="operation" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="380" width="180" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="PGEo8YFtmIF6C_YhRzN8-49" value="- id&amp;nbsp; (PRIMARY KEY)&lt;br&gt;- user_id (FOREIGN KEY)&lt;br&gt;- category_id (FOREIGN KEY)&lt;br&gt;- type&lt;br&gt;- amount&lt;br&gt;- date" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;" vertex="1" parent="PGEo8YFtmIF6C_YhRzN8-48">
+          <mxGeometry y="30" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="PGEo8YFtmIF6C_YhRzN8-50" value="category" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="600" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="PGEo8YFtmIF6C_YhRzN8-51" value="- id&amp;nbsp; (PRIMARY KEY)&lt;br&gt;- user_id (FOREIGN KEY)&lt;br&gt;- title" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;" vertex="1" parent="PGEo8YFtmIF6C_YhRzN8-50">
+          <mxGeometry y="30" width="180" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="PGEo8YFtmIF6C_YhRzN8-54" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERzeroToMany;startArrow=ERzeroToOne;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="PGEo8YFtmIF6C_YhRzN8-51" target="PGEo8YFtmIF6C_YhRzN8-49">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="540" y="760" as="sourcePoint" />
+            <mxPoint x="640" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PGEo8YFtmIF6C_YhRzN8-55" value="" style="edgeStyle=orthogonalEdgeStyle;fontSize=12;html=1;endArrow=ERzeroToMany;startArrow=ERmandOne;rounded=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" source="PGEo8YFtmIF6C_YhRzN8-47" target="PGEo8YFtmIF6C_YhRzN8-49">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="290" y="570" as="sourcePoint" />
+            <mxPoint x="390" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PGEo8YFtmIF6C_YhRzN8-56" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERzeroToMany;startArrow=ERmandOne;rounded=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" source="PGEo8YFtmIF6C_YhRzN8-47" target="PGEo8YFtmIF6C_YhRzN8-51">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="210" y="453" as="sourcePoint" />
+            <mxPoint x="490" y="445" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
