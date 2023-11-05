@@ -53,5 +53,5 @@
 <details>
   <summary>Логическая</summary>
   
-  ![](https://github.com/i1uh4/DB_project/blob/3296b72f5588379c9364893a0ea474ce12d02f2d/%D0%A1%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0%20%D0%91%D0%94.png)
+  ![](https://github.com/i1uh4/DB_project/blob/main/Структура%20БД.png)
 </details>
