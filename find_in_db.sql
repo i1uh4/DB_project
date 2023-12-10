@@ -19,15 +19,15 @@ LANGUAGE plpgsql;
 
 
 -- Поиск пароля пользователя для валидации
-DROP FUNCTION IF EXISTS find_account_id_and_password(login varchar(15));
-CREATE OR REPLACE FUNCTION find_account_id_and_password(login varchar(15))
+DROP FUNCTION IF EXISTS find_account_id_and_password(varchar(15));
+CREATE OR REPLACE FUNCTION find_account_id_and_password(user_login varchar(15))
     RETURNS TABLE(id INTEGER, password VARCHAR) AS
     $$
     BEGIN
         RETURN QUERY
-        SELECT acc.id, acc.password
-        FROM account acc
-        WHERE acc.username = login;
+        SELECT account.id, account.password
+        FROM account
+        WHERE account.username = user_login;
     END;
     $$
 LANGUAGE plpgsql;
@@ -202,8 +202,8 @@ CREATE OR REPLACE FUNCTION get_user_info(curr_user_id INTEGER)
     RETURNS TABLE (
         gender VARCHAR(6),
         activity VARCHAR(10),
-        weight numeric(3, 3),
-        height numeric(3, 3),
+        weight numeric,
+        height numeric,
         age INTEGER
     ) AS
     $$
@@ -247,8 +247,8 @@ CREATE OR REPLACE FUNCTION find_user_data(curr_account_id INTEGER)
         username VARCHAR(15),
         gender VARCHAR(6),
         activity VARCHAR(10),
-        weight NUMERIC(3, 3),
-        height NUMERIC(3, 3),
+        weight NUMERIC,
+        height NUMERIC,
         age INTEGER,
         goal TEXT
     ) AS

@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS dblink;
+
 ------ Добавление информации в таблицы ------
 
 -- Добавление данных аккаунта пользователя в таблицу account
@@ -12,15 +14,15 @@ CREATE OR REPLACE FUNCTION insert_account(user_name VARCHAR(15), pass_word VARCH
 LANGUAGE plpgsql;
 
 -- Добавление информации о пользователе в таблицу user_info
-DROP FUNCTION IF EXISTS insert_user_info(character varying, integer, numeric, numeric, text, character varying, integer);
+DROP FUNCTION IF EXISTS insert_user_info(character varying, integer, numeric, numeric, character varying, integer, text);
 CREATE OR REPLACE FUNCTION insert_user_info(
     user_gender VARCHAR(6),
     user_age INT,
-    user_weight NUMERIC(3,0),
-    user_height NUMERIC(3,0),
-    user_goal TEXT,
+    user_weight NUMERIC,
+    user_height NUMERIC,
     user_activity VARCHAR(10),
-    user_account_id INT
+    user_account_id INT,
+    user_goal TEXT
 )
     RETURNS VOID AS
     $$
