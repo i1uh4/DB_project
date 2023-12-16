@@ -54,6 +54,10 @@ class DataBase:
         update_func = file.read()
         file.close()
 
+        file = open('trigger_functions.sql')
+        trigger_functions = file.read()
+        file.close()
+
         self.db_cursor.execute(delete_func)
         self.db_connection.commit()
 
@@ -64,6 +68,9 @@ class DataBase:
         self.db_connection.commit()
 
         self.db_cursor.execute(update_func)
+        self.db_connection.commit()
+
+        self.db_cursor.execute(trigger_functions)
         self.db_connection.commit()
 
     def find_id_and_password(self, login):
@@ -1186,7 +1193,8 @@ class ReportWindow:
 
         meal = self.db.get_meal_macro(self.user_id, curr_date)
         if meal is not None:
-            self.meal_info = [tuple(map(float, meal[i])) if i < len(meal) else () for i in range(3)]
+            self.meal_info = [tuple(map(float, meal[i])) if i < len(meal)
+                              else (tuple(0 for _ in range(4))) for i in range(3)]
         else:
             self.meal_info = [tuple(0 for _ in range(4)) for _ in range(3)]
 
@@ -1305,8 +1313,6 @@ class ReportWindow:
         self.weight = Label(self.canvas, text=f'{abs(self.difference / 7700):.3f} kg', bg="#2C302C", fg="#FFFFFF")
         self.weight.place(x=564, y=529, width=94, height=42)
 
-        self.add_to_DB()
-
     def macros_page(self):
         self.canvas.destroy()
         self.create_widgets()
@@ -1391,26 +1397,6 @@ class ReportWindow:
         self.break_carbo = Label(self.canvas, text=f'{(self.carbohydrates[2]):.3f} carbohydrates', bg="#2C302C",
                                  fg="#FFFFFF")
         self.break_carbo.place(x=375, y=452, width=182, height=42)
-
-        self.add_to_DB()
-
-    def add_to_DB(self):
-        date = dt.datetime.now().date()
-
-        exists = self.db.get_user_statistic(self.user_id, date)
-
-        calories_intake = self.total_num_calories
-        fats_intake = self.total_num_fats
-        carbohydrates_intake = self.total_num_carbohydrates
-        proteins_intake = self.total_num_proteins
-
-        if not exists:
-            self.db.insert_user_statistic(calories_intake, fats_intake, carbohydrates_intake,
-                                          proteins_intake, date, abs(self.difference / 7700), self.user_id)
-
-        else:
-            self.db.update_user_statistic(calories_intake, fats_intake, carbohydrates_intake,
-                                          proteins_intake, date, abs(self.difference / 7700), self.user_id)
 
 
 class AccountWindow:
