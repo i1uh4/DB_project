@@ -1,15 +1,16 @@
-import os
-from dotenv import load_dotenv
 from app.database.config import DBConfig
-
-load_dotenv()
+import yaml
 
 
 def get_database_config() -> DBConfig:
+    with open("config.yaml") as f:
+        cfg = yaml.load(f, Loader=yaml.FullLoader)
+
+    database: dict = cfg["database"]
     return DBConfig(
-        user=os.environ["DB_USER"],
-        password=os.environ["DB_PASSWORD"],
-        database=os.getenv("DB_NAME", "postgres"),
-        host=os.getenv("DB_HOST", "localhost"),
-        port=os.getenv("DB_PORT", "5432"),
+        user=database["user"],
+        password=database["password"],
+        database=database.get("dbname") or "postgres",
+        host=database.get("host") or "localhost",
+        port=database.get("port") or "5432",
     )
