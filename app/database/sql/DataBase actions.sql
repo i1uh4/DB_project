@@ -9,23 +9,23 @@ RETURNS VOID AS
         IF EXISTS (SELECT datname FROM pg_database WHERE datname = dbname) THEN
              RAISE NOTICE 'Database already exists';
         ELSE
-            PERFORM dblink_exec(format('dbname=%I',  current_database()), 
+            PERFORM dblink_exec(format('user=postgres password=123 dbname=%I',  current_database()),
                 format('CREATE DATABASE %I', dbname));
 
-            PERFORM dblink_exec(format('dbname=%I',  current_database()),
+            PERFORM dblink_exec(format('user=postgres password=123 dbname=%I',  current_database()),
                 format('CREATE USER %I WITH PASSWORD %L', username, password));
 
             
-            PERFORM dblink_exec(format('dbname=%I',  current_database()),
+            PERFORM dblink_exec(format('user=postgres password=123 dbname=%I',  current_database()),
                 format('GRANT ALL PRIVILEGES ON DATABASE %I TO %I', dbname, username));
 
 
-            PERFORM dblink_exec(format('dbname=%I',  dbname),
+            PERFORM dblink_exec(format('user=postgres password=123 dbname=%I',  dbname),
                 format('GRANT ALL PRIVILEGES ON SCHEMA public TO %I', username));
 
-            PERFORM dblink_exec(format('dbname=%I', dbname),'CREATE EXTENSION IF NOT EXISTS dblink');
+            PERFORM dblink_exec(format('user=postgres password=123 dbname=%I', dbname),'CREATE EXTENSION IF NOT EXISTS dblink');
 
-            PERFORM dblink_exec(format('user=%I password=%I dbname=%I',username, password, dbname), 
+            PERFORM dblink_exec(format('user=%I password=%I dbname=%I',username, password, dbname),
                 '
                         CREATE TABLE IF NOT EXISTS account (
                             id SERIAL PRIMARY KEY,
@@ -101,21 +101,6 @@ BEGIN
 EXCEPTION
     WHEN OTHERS THEN
         RAISE NOTICE 'Failed to connect to the database %', dbname;
-END;
-$$
-LANGUAGE plpgsql;
-
----- Удаление всей базы данных ----
-
-DROP FUNCTION IF EXISTS drop_db(VARCHAR(255), VARCHAR(255), text, VARCHAR(255));
-CREATE OR REPLACE FUNCTION drop_db(username VARCHAR(255), password VARCHAR(255), dbname text, db_user VARCHAR(255))
-RETURNS VOID AS
-$$
-BEGIN
-	PERFORM dblink_exec(format('user=%I password=%I dbname=', username, password, dbname),
-							'DROP DATABASE IF EXISTS ' || quote_ident(dbname));
-   	PERFORM dblink_exec(format('user=%I password=%I dbname=', username, password, dbname),
-							format('DROP USER IF EXISTS %I', database_user));
 END;
 $$
 LANGUAGE plpgsql;

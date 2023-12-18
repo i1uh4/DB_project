@@ -3,7 +3,6 @@ import psycopg2 as ps
 
 from app.database.config import DBConfig
 
-
 SQL_PATH = Path(__file__).parent / "sql"
 
 
@@ -189,14 +188,14 @@ class DataBase:
         self.db_connection.commit()
 
     def insert_user_statistic(
-        self,
-        kilocalories_intake,
-        fats_intake,
-        carbohydrates_intake,
-        proteins_intake,
-        date,
-        weight_loss,
-        user_id,
+            self,
+            kilocalories_intake,
+            fats_intake,
+            carbohydrates_intake,
+            proteins_intake,
+            date,
+            weight_loss,
+            user_id,
     ):
         self.db_cursor.execute(
             "SELECT add_statistic_info(%s, %s, %s, %s, %s, %s, %s)",
@@ -213,7 +212,7 @@ class DataBase:
         self.db_connection.commit()
 
     def insert_product_info(
-        self, prod_id, name, proteins, fats, carbohydrates, kilocalories
+            self, prod_id, name, proteins, fats, carbohydrates, kilocalories
     ):
         self.db_cursor.execute(
             "SELECT insert_product_info(%s, %s, %s, %s, %s, %s)",
@@ -239,7 +238,7 @@ class DataBase:
         self.db_connection.commit()
 
     def insert_user_info(
-        self, gender, account_id, activity, age=18, weight=70.0, height=180.0, goal="-"
+            self, gender, account_id, activity, age=18, weight=70.0, height=180.0, goal="-"
     ):
         self.db_cursor.execute(
             "SELECT insert_user_info(%s, %s, %s, %s, %s, %s, %s)",
@@ -256,7 +255,7 @@ class DataBase:
         self.db_connection.commit()
 
     def insert_meal_info(
-        self, meal_type, date, proteins, fats, carbohydrates, kilocalories, user_id
+            self, meal_type, date, proteins, fats, carbohydrates, kilocalories, user_id
     ):
         self.db_cursor.execute(
             "SELECT insert_meal_info(%s, %s, %s, %s, %s, %s, %s)",
@@ -273,7 +272,7 @@ class DataBase:
         self.db_connection.commit()
 
     def update_meal_info(
-        self, meal_type, date, proteins, fats, carbohydrates, kilocalories, user_id
+            self, meal_type, date, proteins, fats, carbohydrates, kilocalories, user_id
     ):
         self.db_cursor.execute(
             "SELECT update_meal_info(%s, %s, %s, %s, %s, %s, %s)",
@@ -300,14 +299,14 @@ class DataBase:
         self.db_connection.commit()
 
     def update_user_statistic(
-        self,
-        kilocalories_intake,
-        fats_intake,
-        carbohydrates_intake,
-        proteins_intake,
-        date,
-        weight_loss,
-        user_id,
+            self,
+            kilocalories_intake,
+            fats_intake,
+            carbohydrates_intake,
+            proteins_intake,
+            date,
+            weight_loss,
+            user_id,
     ):
         self.db_cursor.execute(
             "SELECT update_statistic_info(%s, %s, %s, %s, %s, %s, %s)",
@@ -365,7 +364,15 @@ class DataBase:
         self.close_connection()
         connection = ps.connect(self.config.to_connection_string())
         cursor = connection.cursor()
-        cursor.execute("DROP DATABASE %s", (self.DB_NAME,))
+
+        with open(SQL_PATH / 'Drop_DataBase.sql') as file:
+            drop_db = file.read()
+
+        cursor.execute(drop_db)
+        connection.commit()
+
+        cursor.execute("SELECT drop_db(%s, %s, %s, %s)",
+                       (self.config.user, self.config.password, self.DB_NAME, self.DB_USER))
         connection.commit()
 
     def close_connection(self):
