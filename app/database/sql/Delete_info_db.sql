@@ -36,5 +36,3 @@ CREATE FUNCTION delete_fav_product(curr_user_id INTEGER, curr_product_id INTEGER
 LANGUAGE sql;
 
 
-
-
